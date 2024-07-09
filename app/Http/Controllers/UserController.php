@@ -19,10 +19,15 @@ class UserController extends Controller
         return response()->json(['user' => $user]);
     }
 
-    public function getUserPoints($username)
+    public function getUserDetails($username)
     {
         $user = User::where('telegram_username', $username)->first();
-        return response()->json(['points' => $user->points]);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        return response()->json(['user' => $user]);
     }
 
     public function updateUserPoints(Request $request)
